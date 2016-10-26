@@ -36,6 +36,15 @@ export default class WelcomePage extends Component {
          }}>
          Go To Main Menu!
        </Button>
+
+       <Button
+        style={{fontSize: 20, color: 'blue', paddingTop:15}}
+        styleDisabled={{color: 'red'}}
+        onPress={() => {
+          this.props.navigator.push({name:'samplemenu'});
+        }}>
+        Go To Sample Menu
+      </Button>
         <CountOfCharacter text={this.state.text} />
       </View>
 
