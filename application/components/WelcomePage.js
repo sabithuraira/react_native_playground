@@ -38,12 +38,12 @@ export default class WelcomePage extends Component {
        </Button>
 
        <Button
-        style={{fontSize: 20, color: 'blue', paddingTop:15}}
+        style={{fontSize: 15, color: 'blue', paddingTop:15}}
         styleDisabled={{color: 'red'}}
         onPress={() => {
           this.props.navigator.push({name:'samplemenu'});
         }}>
-        Go To Sample Menu
+        See ListView and Navigator Sample
       </Button>
         <CountOfCharacter text={this.state.text} />
       </View>

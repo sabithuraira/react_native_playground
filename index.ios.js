@@ -38,7 +38,7 @@ class myfirstApp extends Component {
         <Navigator
           initialRoute={{name: 'root'}}
           renderScene={this.renderScene.bind(this)}
-
+          
           navigationBar={
            <Navigator.NavigationBar
               style={{paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight}}
@@ -69,6 +69,7 @@ class myfirstApp extends Component {
               Navigator.SceneConfigs.FloatFromBottom}
            />
         }
+
         />
     )
   }
