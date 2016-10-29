@@ -15,19 +15,51 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-  const data_array=['Music',
+/*
+  //use this data for simple listview
+  const data_array=[
               'Movie',
               'Sport',
-              'Entertainment',];
+              'Entertainment',
+              'Politics',
+              'News & Info',
+              'Food',
+              'IT & Technology',
+              'Sains',
+              'Travel',
+              'Lifestyle',
+              'Music',
+              'Art',
+              'Fashion',
+              'Health',
+              'Regional'
+            ];
+*/
 
-  const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  // use this data for listview with sectionHeader
+  const data_array=[];
+  data_array['Sport']=['Soccer','Moto GP','Others'];
+  data_array['IT & Technology']=['IT','Technology','Science'];
+  data_array['Entertainment']=['Music','Movie','Art'];
+  data_array['Interest']=['Travel','Style','Fashion','Business'];
+  data_array['News & Info']=['Politics','World','Phenomenon'];
+  data_array['Health']=['Health','Food','Lifestyle'];
+
+  const ds = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 !== r2,
+    sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+  });
 
 export default class SampleMenu extends Component {
   constructor(props) {
     super(props);
     //definition of listview datasource
     this.state = {
-      dataSource: ds.cloneWithRows(data_array),
+      //this code use for simple list view
+      //dataSource: ds.cloneWithRows(data_array),
+      //this code use for listview with sectionHeader
+
+      dataSource: ds.cloneWithRowsAndSections(data_array),
       filter_string:'',
     };
   }
@@ -39,7 +71,7 @@ export default class SampleMenu extends Component {
           renderRow={(rowData,sectionId,rowId) =>(
             <TouchableHighlight onPress={() => {
                 this.props.navigator.push({name:'dummypage'});
-                /*
+                /* this is sample to show alert when you click on item
                 Alert.alert(
                   'Enter title here..',
                   'You click on '+rowData,
@@ -52,23 +84,50 @@ export default class SampleMenu extends Component {
             </TouchableHighlight>
           )}
           enableEmptySections={true}
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator_style} />}
+          renderSeparator={(sectionId, rowId) => <View key={sectionId+rowId} style={styles.separator_style} />}
+
           renderHeader={() =>
             <View style={styles.listview_header}>
               <TextInput style={styles.input} placeholder="Search..."
                 onChangeText={(text) =>{
                   var rows = [];
 
+                  /*
+                  //this code use for simple list view
                   for (var i=0; i < data_array.length; i++) {
                      var stateName = data_array[i].toLowerCase();
                      if(stateName.search(text.toLowerCase()) !== -1){
                        rows.push(data_array[i]);
                      }
                    }
+                   */
 
-                   this.setState({dataSource:ds.cloneWithRows(rows)});
+                   //this code use for listview with sectionHeader
+                   for (var key in data_array) {
+                     if (!rows[key]) {
+                       rows[key] = [];
+                     }
+
+                     for (var i=0; i < data_array[key].length; i++) {
+                        var stateName = data_array[key][i].toLowerCase();
+                        if(stateName.search(text.toLowerCase()) !== -1){
+                          rows[key].push(data_array[key][i]);
+                        }
+                      }
+                   }
+
+                   //this code use for simple list view
+                   //this.setState({dataSource:ds.cloneWithRows(rows)});
+                   //this code use for listview with sectionHeader
+                   this.setState({dataSource:ds.cloneWithRowsAndSections(rows)});
                 }}
               />
+            </View>
+          }
+          //
+          renderSectionHeader={(rowData,sectionId)=>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderText}>{sectionId}</Text>
             </View>
           }
         />
@@ -78,6 +137,15 @@ export default class SampleMenu extends Component {
 }
 
 const styles = StyleSheet.create({
+  sectionHeader: {
+    backgroundColor: '#48D1CC'
+  },
+  sectionHeaderText: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 16,
+    color: 'white',
+    paddingLeft: 10
+  },
   listview_header: {
     padding: 8,
     flexDirection: 'row',
