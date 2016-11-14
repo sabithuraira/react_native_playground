@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Navigator, Text,
-  View, TouchableHighlight}
+import { AppRegistry, StyleSheet, Navigator, Text, View, TouchableHighlight}
   from 'react-native';
 
 import WelcomePage from './application/components/WelcomePage';
 import ListMenu from './application/components/ListMenu';
 import SampleMenu from './application/components/SampleMenu';
 import DummyPage from './application/components/DummyPage';
+import ActIndicator from './application/components/ActIndicator';
 
 class myfirstApp extends Component {
   renderScene(route, navigator) {
     console.log(route);
+    route.index=2;
     if(route.name == 'root') {
       route.title='Welcome';
       route.index=0;
@@ -31,6 +32,10 @@ class myfirstApp extends Component {
       route.index=1;
       return <ListMenu navigator={navigator} />
     }
+    if(route.name == 'act_indicator') {
+      route.title='ActivityIndicator';
+      return <ActIndicator navigator={navigator} />
+    }
   }
 
   render() {
@@ -38,7 +43,7 @@ class myfirstApp extends Component {
         <Navigator
           initialRoute={{name: 'root'}}
           renderScene={this.renderScene.bind(this)}
-          
+
           navigationBar={
            <Navigator.NavigationBar
               style={{paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight}}

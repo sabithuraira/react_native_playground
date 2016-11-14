@@ -6,23 +6,24 @@
 
 import React, { Component } from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
-  ListView
+  Navigator,
+  ListView,
+  TouchableHighlight,
 } from 'react-native';
 
 export default class ListMenu extends Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const data_array=[
+      {'name':'Activity Indicator','page_id':'act_indicator'}
+    ];
     this.state = {
-      dataSource: ds.cloneWithRows([
-        'Music',
-        'Movie',
-        'Sport',
-        'Entertainment',
-      ])
+      dataSource: ds.cloneWithRows(data_array)
     };
   }
   render() {
@@ -31,9 +32,13 @@ export default class ListMenu extends Component {
         <ListView style={styles.listview_style}
           dataSource={this.state.dataSource}
           renderRow={(rowData) =>(
-            <View style={styles.row}>
-              <Text style={styles.row_style}>{rowData}</Text>
-            </View>
+            <TouchableHighlight onPress={() => {
+                this.props.navigator.push({name:rowData.page_id});
+            }}>
+              <View style={styles.row}>
+                <Text style={styles.row_style}>{rowData.name}</Text>
+              </View>
+            </TouchableHighlight>
           )}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator_style} />}
         />

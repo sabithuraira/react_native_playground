@@ -58,7 +58,6 @@ export default class SampleMenu extends Component {
       //this code use for simple list view
       //dataSource: ds.cloneWithRows(data_array),
       //this code use for listview with sectionHeader
-
       dataSource: ds.cloneWithRowsAndSections(data_array),
       filter_string:'',
     };
@@ -85,7 +84,6 @@ export default class SampleMenu extends Component {
           )}
           enableEmptySections={true}
           renderSeparator={(sectionId, rowId) => <View key={sectionId+rowId} style={styles.separator_style} />}
-
           renderHeader={() =>
             <View style={styles.listview_header}>
               <TextInput style={styles.input} placeholder="Search..."
@@ -114,6 +112,9 @@ export default class SampleMenu extends Component {
                           rows[key].push(data_array[key][i]);
                         }
                       }
+
+                      if(rows[key].length==0)
+                        delete rows[key];
                    }
 
                    //this code use for simple list view
